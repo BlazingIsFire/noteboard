@@ -1,0 +1,11 @@
+{
+  "hosting": {
+    "target": "noteboard-app",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
