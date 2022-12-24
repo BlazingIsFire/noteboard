@@ -1,3 +1,15 @@
+@import url('https://fonts.googleapis.com/css?family=Carter+One');
+
+html, body, .App, #root{
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background-color: #ffffff;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +22,33 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+/* 
+==========================================================================
+ = Start of Universal styling =
+==========================================================================
+*/
+
+.display-none{
+  display: none;
+}
+.flex{
+  display: flex;
+}
+.flex-center-all{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.flex-column{
+  flex-direction: column;
+}
+.flex-row{
+  flex-direction: row;
+}
+.pointer{
+  cursor: pointer;
+}
+.font-carter-one{
+  font-family: Carter One;
 }
