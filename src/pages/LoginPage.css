@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One');
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
+@import url('https://fonts.googleapis.com/css?family=Abril+Fatface');
+
+/* 
+==========================================================================
+ = Start of LoginPage =
+==========================================================================
+*/
+/* 1c8eb1 */
+
+.login-container{
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    background: rgb(255, 180, 229);
+    background: radial-gradient(circle, rgba(251,193,231,1) 0%, rgba(148,187,233,1) 100%);
+}
+.login-box{
+    width: 800px;
+    height: 400px;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+.login-box-left{
+    width: 50%;
+    height: 100%;
+    border-radius: 10px;
+    background-color: #000d47;
+}
+#login-svg{
+    max-width: 300px;
+    transform: rotate(-16deg);
+}
+.login-box-right{
+    width: 50%;
+    height: 100%;
+    gap: .5rem;
+}
+
+/* 
+==========================================================================
+ = Start of LoginPage Form =
+==========================================================================
+*/
+
+#login-form-img{
+    margin: 0;
+}
+.login-box-right h1{
+    margin: 0;
+    color: #000d47;
+    font-size: 32px;
+    letter-spacing: 8px;
+    font-family: Luckiest Guy;
+}
+.login-box-right h4,
+.login-box-right h5{
+    margin: 0;
+    font-size: 14px;
+}
+.login-box-right a{
+    font-size: 14px;
+    color: #000d47;
+    margin-bottom: 20px;
+    text-decoration: none;
+    transition: all .3s ease;
+}
+.login-box-right a:hover{
+    scale: 1.1;
+    color: #001b96;
+}
+/* Form and inputs */
+.login-box-right form{
+    gap: .5rem;
+    width: 100%;
+}
+.login-form-input{
+    width: 80%;
+    height: 30px;
+    padding: 4px;
+    opacity: .5;
+    font-size: 20px;
+    border-radius: 5px;
+    border: 3px solid #000d47;
+    box-shadow: 0 0 2px 0px #000d47;
+}
+.login-form-input:focus {
+    opacity: 1;
+    transition: all .5s ease;
+}
+.login-form-input:focus::placeholder{
+    opacity: 0;
+    color: #000000;
+    transition: all .5s ease;
+}
+.login-form-btn{
+    width: 83%;
+    padding: 4px;
+    font-size: 16px;
+    color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #000d47;
+}
+.login-form-btn:hover{
+    background-color: #001b96;
+}
+/* 
+==========================================================================
+ = Start of Login Modal =
+==========================================================================
+*/
+.login-modal{
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-color: rgb(0, 0, 0, .7);
+}
+.login-modal-box{
+    width: 350px;
+    height: 275px;
+    border-radius: 10px;
+    background-color: #ffffff;
+}
+.login-modal-box h1{
+    margin-bottom: 0;
+    color: #9c0000;
+    letter-spacing: 2px;
+    font-family: Luckiest Guy;
+}
+.login-modal-box p{
+    font-size: 16px;
+    text-align: center;
+}
+.login-modal-box button{
+    width: 83%;
+    padding: 4px;
+    font-size: 16px;
+    color: #ffffff;
+    border-radius: 5px;
+    border: 1px solid #000000;
+    background-color: #000d47;
+}
+.login-modal-box button:hover{
+    background-color: #001b96;
+}
+
+/* 
+==========================================================================
+ = Start of Media Query's =
+==========================================================================
+*/
+
+@media only screen and (max-width: 450px){
+    .login-box-left{
+        display: none;
+    }
+    .login-box{
+        max-width: 90%;
+        align-items: center;
+        justify-content: center;
+    }
+    .login-box-right{
+        width: 100%;
+    }
+    .login-modal-box{
+        max-width: 90%;
+    }
+}
