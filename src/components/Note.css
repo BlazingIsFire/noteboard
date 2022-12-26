@@ -1,0 +1,57 @@
+@import url('https://fonts.googleapis.com/css?family=Amaranth');
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans');
+@import url('https://fonts.googleapis.com/css?family=Luckiest+Guy');
+
+
+/* 
+==========================================================================
+ = Start of Note Card =
+==========================================================================
+*/
+
+.note{
+    width: 14rem;
+    height: 14rem;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px 0 #000000;
+}
+.note-header{
+    gap: 5rem;
+    height: 2rem;
+    background-color: #ffffff;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    box-shadow: 0 2px 5px 0 #000000;
+}
+.note-header text{
+    font-size: 16px;
+}
+#trash-svg{
+    width: 26px;
+}
+#trash-svg:hover{
+    scale: 1.1;
+}
+.note-body{
+    width: fill;
+    padding: .5rem;
+    height: fit-content;
+}
+.note-title{
+    font-size: 20px;
+    font-weight: 700;
+    font-family: 'Amaranth';
+}
+.note-content{
+    margin: 0;
+    line-clamp: 7;
+    overflow: hidden;
+    margin-top: .5rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 7;
+    word-wrap: break-word;
+    font-family: 'Amaranth';
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+}
