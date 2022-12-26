@@ -18,4 +18,5 @@ export const auth = getAuth(app);
 export const storage = getStorage(app);
 export const db = getFirestore(app);
 export const usersCollectionRef = collection(db, "users");
+export const noteboardCollectionRef = collection(db, "noteboard");
 export default app;
