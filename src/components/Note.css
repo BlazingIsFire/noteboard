@@ -13,8 +13,12 @@
     width: 14rem;
     height: 14rem;
     border-radius: 10px;
+    transition: all .2s ease;
     background-color: #ffffff;
     box-shadow: 0 0 10px 0 #000000;
+}
+.note:hover{
+    scale: 1.025;
 }
 .note-header{
     gap: 5rem;
@@ -24,7 +28,7 @@
     border-top-right-radius: 10px;
     box-shadow: 0 2px 5px 0 #000000;
 }
-.note-header text{
+.note-header h4{
     font-size: 16px;
 }
 #trash-svg{
@@ -39,6 +43,7 @@
     height: fit-content;
 }
 .note-title{
+    margin: 0;
     font-size: 20px;
     font-weight: 700;
     font-family: 'Amaranth';

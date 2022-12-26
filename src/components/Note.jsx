@@ -5,16 +5,18 @@ import { ReactComponent as Trashbin } from '../imgs/trash.svg';
 
 function Note() {
   return (
-    <div className='note'>
-        <div className='note-header flex-center-all'>
-            <text className='font-carter-one'>01/01/0000</text>
+    <>
+    <div className='note pointer'>
+        <div className='note-header flex-center-all' style={{backgroundColor: '#ff0000'}}>
+            <h4 className='font-carter-one'>01/01/0000</h4>
             <Trashbin className='pointer' id='trash-svg'/>
         </div>
         <div className='note-body flex flex-column'>
-            <text className='note-title'>Test Title</text>
-            <p className='note-content'>Akpjasdkjaskdjaskdjaklsjdkasjdlasjdklasjdajsdlajsldk askdmakm kkn akmsdkamk; k aksdakspd askdlaskdaskdjaksdaskdjkk aksndkasdkknk nkalsnd lansldnasl d</p>
+            <h1 className='note-title'>Test Title</h1>
+            <p className='note-content'>This is some text.</p>
         </div>
-    </div>     
+    </div>  
+    </>   
   )
 }
 
