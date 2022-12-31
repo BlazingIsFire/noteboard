@@ -1,10 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../index.css';
 import './LoginPage.css';
-import { auth } from '../firebase';
+import { auth, db, noteboardCollectionRef } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
 import { ReactComponent as LoginSVG } from '../imgs/sticky-note.svg';
 import notebookImg from '../imgs/notebook-128.png';
 
@@ -16,8 +17,8 @@ function Login() {
     const [loginModal, setLoginModal] = useState(false);
     const [errorText, setErrorText] = useState('');
     // Misc.
-    const { currentUser } = useAuth();
     const navigate = useNavigate();
+    const { currentUser } = useAuth();
 
     // Checks if a user is already signed in
     useEffect(() =>{
@@ -32,8 +33,18 @@ function Login() {
     const handleLogin = async (e) =>{
         e.preventDefault();
         await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value)
-            .then((userCredential) =>{
-                return navigate('home');
+            .then(async (userCredential) =>{
+                const user = userCredential.user;
+                const noteboardUserDocRef = doc(noteboardCollectionRef, user.uid);
+                const userDoc = await getDoc(noteboardUserDocRef)
+                if(userDoc.exists()){
+                    return navigate('home');
+                } else {
+                    await setDoc(noteboardUserDocRef, {darkmode: false})
+                    .then(()=>{
+                        return navigate('home');
+                    })
+                }
             }).catch((error) =>{
                 const errorCode = error.code;
                 setLoginModal(true);
@@ -49,7 +60,7 @@ function Login() {
                         break;
                     default:
                         setErrorText('Please contact andrew@andrewschweitzer.tech with the following error code: ' + error.code);
-                        console.log(error.code);
+                        console.log(errorCode);
                         break;
                 }
             }
@@ -68,12 +79,12 @@ function Login() {
                 <h1>Noteboard</h1>
                 <h4 className='font-carter-one'>Please login to continue</h4>
                 <form className='flex-center-all flex-column' onSubmit={handleLogin}>
-                    <input ref={emailRef} className='login-form-input font-carter-one' id='email-input' type='email' placeholder='Email Address'/>
-                    <input ref={passwordRef} className='login-form-input font-carter-one' id='password-input' type='password' placeholder='Password'/>
+                    <input ref={emailRef} className='login-form-input font-carter-one' id='email-input' type='email' placeholder='Email Address' autoFocus required/>
+                    <input ref={passwordRef} className='login-form-input font-carter-one' id='password-input' type='password' placeholder='Password' required/>
                     <input className='login-form-btn pointer font-carter-one' id='login-btn' type='submit' value='Login'/>
                 </form>
                 <h5 className='font-carter-one'>Don't have an account?</h5>
-                <a className='font-carter-one pointer' href='https://andrewschweitzer.tech/register'>Create an account</a>
+                <a className='font-carter-one pointer' href='https://andrewschweitzer.tech/register' title='Register'>Create an account</a>
             </div>
         </div>
     </div>
