@@ -11,10 +11,9 @@
 .home-container{
     z-index: 1;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     position: absolute;
-    background: rgb(251, 193, 231);
-    background: radial-gradient(circle, rgba(251,193,231,1) 0%, rgb(148, 187, 233) 100%);
+    background: transparent;
 }
 
 /* 
@@ -41,15 +40,6 @@
     height: auto;
     color: #000000;
 }
-/* .home-header span{
-    font-size: 1.5em;
-    color: #000000;
-    transition: all .2s ease;
-}
-.home-header span:hover{
-    scale: 1.1;
-    color: #000d47;
-} */
 .home-header-dark-container{
     position: relative;
     width: 50px;
@@ -58,6 +48,7 @@
 }
 .home-header-dark-container label{
     left: -90px;
+    color: #000d47;
     font-size: 16px;
     position: absolute;
 }
@@ -72,35 +63,34 @@
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 40px;
-    background-color: rgb(255, 0, 0);
-    -webkit-transition: .4s;
     transition: .4s;
+    border-radius: 40px;
+    -webkit-transition: .4s;
+    background-color: #000d47;
 }
 .dark-mode-slider::before{
-    position: absolute;
     content: '';
-    height: 16px;
-    width: 16px;
     left: 4px;
+    width: 16px;
     bottom: 4px;
-    border-radius: 40px;
-    background-color: white;
-    -webkit-transition: .4s;
+    height: 16px;
     transition: .4s;
+    position: absolute;
+    border-radius: 40px;
+    -webkit-transition: .4s;
+    background-color: #ffffff;
 }
 .home-header-dark-mode input:checked + .dark-mode-slider {
-    background-color: #2196F3;
+    background-color: #ffffff;
 }
-  
 .home-header-dark-mode input:focus + .dark-mode-slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px #ffffff;
 }
-  
 .home-header-dark-mode input:checked + .dark-mode-slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
+    background-color: #282c34;
     transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    -webkit-transform: translateX(26px);
 }
   
 /* 
@@ -111,6 +101,7 @@
 .home-body{
     gap: 1rem;
     padding: 2rem;
+    flex-wrap: wrap;
 }
 .home-new-note{
     width: 14rem;
@@ -139,26 +130,175 @@
 
 /* 
 ==========================================================================
- = Start of Settings Modal =
+ = Start of Add note Modal =
 ==========================================================================
 */
-.settings-modal-container{
+.addnote-modal-container{
     z-index: 3;
     width: 100%;
     height: 100%;
     position: fixed;
     background-color: rgb(0, 0, 0, .7);
 }
-.settings-modal-box{
-    width: 350px;
-    height: 275px;
+.addnote-modal-box{
+    width: 30rem;
+    height: 23rem;
+    padding: 2rem;
     border-radius: 10px;
     background-color: #ffffff;
+    animation: addnote-modal-intro 1s forwards;
 }
-.settings-modal-box h1{
-    font-size: 28px;
+@keyframes addnote-modal-intro{
+    0%{
+        transform: translateY(-100%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
+}
+.addnote-modal-box form{
+    height: 100%;
+}
+.addnote-modal-box h1{
+    margin: 0;
+    font-size: 30px;
     color: #000d47;
     letter-spacing: 2px;
     font-family: 'Luckiest Guy';
 }
+.addnote-modal-box input[type='text']{
+    width: 80%;
+    height: 30px;
+    padding: 4px;
+    opacity: .5;
+    font-size: 20px;
+    border-radius: 5px;
+    font-family: 'Amaranth';
+    border: 3px solid #000d47;
+    box-shadow: 0 0 2px 0px #000d47;
+}
+.addnote-modal-box input:focus{
+    opacity: 1;
+    transition: all .5s ease;
+}
+.addnote-modal-box:focus::placeholder{
+    opacity: 0;
+    color: #000000;
+    transition: all .5s ease;
+}
+.addnote-modal-box textarea{
+    width: 95%;
+    height: 40%;
+    padding: 4px;
+    opacity: .5;
+    resize: none;
+    font-size: 20px;
+    border-radius: 5px;
+    font-family: 'Amaranth';
+    border: 3px solid #000d47;
+    box-shadow: 0 0 2px 0px #000d47;
+}
+.addnote-modal-box textarea:focus{
+    opacity: 1;
+    transition: all .5s ease;
+}
+.addnote-colors-container{
+    gap: 1rem;
+    height: 1.5rem;
+    padding: 4px;
+}
+.addnote-modal-box input[type='checkbox']{
+    width: 0;
+    height: 0;
+    opacity: 0;
+}
+.addnote-color{
+    right: 1.5rem;
+    position: relative;
+    transition: .4s;
+    border-radius: 40px;
+}
+.addnote-color::before{
+    content: '';
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    border-radius: 40px;
+    box-sizing: border-box;
+    background-color: var(--addnote-color-selector);
+}
+.addnote-color:hover{
+    scale: 1.2;
+}
+#addnote-color-selected::before{
+    border: 3px solid #000000;
+    transition: all .2s ease;
+}
+#addnote-color-default::before{
+    border: 1px solid #000000;
+    transition: all .2s ease;
+}
 
+#addnote-submit-btn{
+    width: 40%;
+    padding: 4px;
+    font-size: 20px;
+    color: #ffffff;
+    border-radius: 5px;
+    font-family: 'Amaranth';
+    border: 1px solid #000000;
+    background-color: #000d47;
+}
+#addnote-submit-btn:hover{
+    background-color: #001b96;
+}
+#addnote-cancel-btn{
+    width: 40%;
+    padding: 4px;
+    font-size: 20px;
+    margin-left: 2px;
+    color: #ffffff;
+    border-radius: 5px;
+    font-family: 'Amaranth';
+    border: 1px solid #000000;
+    background-color: #9c0000;
+}
+#addnote-cancel-btn:hover{
+    background-color: #dd0000;
+}
+
+/* 
+==========================================================================
+ = Start of DarkMode Colors =
+==========================================================================
+*/
+#darkmode.home-container{
+    background: #282c34;
+}
+#darkmode .home-header h1,
+#darkmode .home-header-dark-container label{
+    color: #B3B3B3;
+}
+#darkmode .home-header-dark-mode input:checked + .dark-mode-slider{
+    background-color: #B3B3B3;
+}
+#darkmode .home-new-note h2{
+    color: #ffffff;
+}
+#darkmode .home-new-note #new-note{
+    fill: #ffffff;
+    border: 2px dotted #ffffff;
+}
+#darkmode .home-new-note{
+    background: #353a44;
+}
+/* 
+==========================================================================
+ = Start of LightMode Colors =
+==========================================================================
+*/
+
+#lightmode.home-container{
+    background: rgb(251, 193, 231);
+    background: radial-gradient(circle, rgba(251,193,231,1) 0%, rgb(148, 187, 233) 100%);
+}
