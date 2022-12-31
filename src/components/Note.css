@@ -14,18 +14,22 @@
     height: 14rem;
     border-radius: 10px;
     transition: all .2s ease;
-    background-color: #ffffff;
+    background: transparent;
     box-shadow: 0 0 10px 0 #000000;
 }
 .note:hover{
     scale: 1.025;
 }
 .note-header{
-    gap: 5rem;
+    /* gap: 6rem; */
     height: 2rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    align-items: center;
     background-color: #ffffff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    justify-content: space-between;
     box-shadow: 0 2px 5px 0 #000000;
 }
 .note-header h4{
@@ -35,10 +39,10 @@
     width: 26px;
 }
 #trash-svg:hover{
-    scale: 1.1;
+    scale: 1.2;
 }
 .note-body{
-    width: fill;
+    width: stretch;
     padding: .5rem;
     height: fit-content;
 }
@@ -46,11 +50,13 @@
     margin: 0;
     font-size: 20px;
     font-weight: 700;
+    color: #000000;
     font-family: 'Amaranth';
 }
 .note-content{
     margin: 0;
     line-clamp: 7;
+    color: #000000;
     overflow: hidden;
     margin-top: .5rem;
     display: -webkit-box;
@@ -59,4 +65,28 @@
     font-family: 'Amaranth';
     text-overflow: ellipsis;
     -webkit-box-orient: vertical;
+}
+
+/* 
+==========================================================================
+ = Start of Dark mode Colors =
+==========================================================================
+*/
+
+#darkmode.note{
+    background-color: #353a44;
+}
+#darkmode .note-title,
+#darkmode .note-content{
+    color: #ffffff;
+}
+
+/* 
+==========================================================================
+ = Start of Light mode Colors =
+==========================================================================
+*/
+
+#lightmode.note{
+    background-color: #ffffff;
 }
