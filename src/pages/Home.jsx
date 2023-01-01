@@ -18,11 +18,16 @@ function Home() {
     const [notes, setNotes] = useState([]);
     const [darkmode, setDarkMode] = useState('');
     const [pageTheme, setPageTheme] = useState();
+    const [modifyNoteData, setModifyNoteData] = useState();
     const [addNoteModal, setAddNoteModal] = useState(false);
     const [addNoteColor, setAddNoteColor] = useState('white');
+    const [modifyNoteColor, setModifyNoteColor] = useState('');
     // useRefs
     const addNoteTitleRef = useRef();
     const addNoteContentRef = useRef();
+    const modifyModalRef = useRef();
+    const modifyNoteTitleRef = useRef(null);
+    const modifyNoteContentRef = useRef(null);
 
     //useEffect (runs functions when a note is updated and on page load.)
     useEffect(()=>{
@@ -62,9 +67,8 @@ function Home() {
                 noteArr.push({...doc.data(), noteId: doc.id})
             });
             setNotes(noteArr);
-            console.log(notes)
         })
-        return;
+        return noteboardFirebase;
     }
     
     // Update and change Dark Mode status
@@ -113,6 +117,32 @@ function Home() {
         setAddNoteColor('white')
         return setAddNoteModal(false);
     }
+
+    // Updates note data (Modify Note)
+    const handleModifyNote = async (e) => {
+        e.preventDefault();
+        const noteboardNoteRef = doc(db, `noteboard-app/${currentUser.uid}/userNotes`, modifyNoteData.noteId)
+        await updateDoc(noteboardNoteRef, {
+            noteTitle: modifyNoteTitleRef.current.value,
+            noteContent: modifyNoteContentRef.current.value,
+            noteColor: modifyNoteColor
+        });
+        handleModifyNoteCancel();
+    }
+
+    // Cancels Modify Note modal and resets states.
+    const handleModifyNoteCancel = (e) => {
+        modifyModalRef.current.className = 'display-none';
+        setModifyNoteColor('');
+        setModifyNoteData(null);
+    }
+
+    // Retreives data from Note and sets data to object state.
+    const getNoteData = (data) => {
+        setModifyNoteData(data);
+        modifyNoteTitleRef.current.value = data.noteTitle;
+        modifyNoteContentRef.current.value = data.noteContent;
+    }
     
   return (
     <>
@@ -132,7 +162,7 @@ function Home() {
                 <Add className='pointer' id='new-note'/>
                 <h2 className='font-carter-one'>Add Note</h2>
             </div>
-            {notes.map(((note, index) => <Note key={index} note={note} theme={pageTheme}/>))}
+            {notes.map(((note, index) => <Note key={index} note={note} theme={pageTheme} noteData={getNoteData}/>))}
         </div>
     </div>
     <div className={`${addNoteModal ? 'addnote-modal-container flex-center-all' : 'display-none'}`}>
@@ -167,6 +197,39 @@ function Home() {
                 <input type='button' value='Cancel' id='addnote-cancel-btn' className='pointer' onClick={handleAddNoteCancel}/>
             </form>
         </div>
+    </div>
+    <div ref={modifyModalRef} className='display-none' id='modify-modal'>
+      <div className='modify-note-box'>
+        <form id='modify-note' onSubmit={handleModifyNote}>
+            <h1>Modify a note:</h1>
+            <label className='font-carter-one'>Note Title:</label><br/>
+            <input ref={modifyNoteTitleRef} type='text' defaultValue={`${modifyNoteData ? modifyNoteData.noteTitle : ''}`} placeholder='Modify title...' required/><br/>
+            <label className='font-carter-one'>Note Content:</label><br/>
+            <textarea ref={modifyNoteContentRef} defaultValue={`${modifyNoteData ? modifyNoteData.noteContent : ''}`} placeholder='Modify Content...' required/><br/>
+            <div className='modifynote-colors-container flex flex-start'>
+                <input type='checkbox' name='modifynote-color-white'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ffffff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffffff'}} onClick={()=>{setModifyNoteColor('#ffffff')}}/>
+                <input type='checkbox' name='modifynote-color-dark'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#282c34' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#282c34'}} onClick={()=>{setModifyNoteColor('#282c34')}}/>
+                <input type='checkbox' name='modifynote-color-red'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ff0000' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ff0000'}} onClick={()=>{setModifyNoteColor('#ff0000')}}/>
+                <input type='checkbox' name='modifynote-color-yellow'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ffee00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffee00'}} onClick={()=>{setModifyNoteColor('#ffee00')}}/> 
+                <input type='checkbox' name='modifynote-color-green'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#1eff00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#1eff00'}} onClick={()=>{setModifyNoteColor('#1eff00')}}/>
+                <input type='checkbox' name='modifynote-color-cyan'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#00d9ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#00d9ff'}} onClick={()=>{setModifyNoteColor('#00d9ff')}}/>
+                <input type='checkbox' name='modifynote-color-blue'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#3700ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#3700ff'}} onClick={()=>{setModifyNoteColor('#3700ff')}}/>
+                <input type='checkbox' name='modifynote-color-purple'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#c300ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#c300ff'}} onClick={()=>{setModifyNoteColor('#c300ff')}}/>
+                <input type='checkbox' name='modifynote-color-pink'/>
+                <span className='addnote-color pointer' id={`${modifyNoteColor === '#FF69B4' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#FF69B4'}} onClick={()=>{setModifyNoteColor('#FF69B4')}}/>
+            </div>
+            <input type='submit' value='Update Note' id='addnote-submit-btn' className='pointer'/>
+            <input type='button' value='Cancel' id='addnote-cancel-btn' className='pointer' onClick={handleModifyNoteCancel}/>
+        </form>
+      </div>
     </div>
     </>
   )
