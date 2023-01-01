@@ -6,18 +6,24 @@ import { useAuth } from '../contexts/AuthContext';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { ReactComponent as Trashbin } from '../imgs/trash.svg';
 
-function Note({ note, theme }) {
+function Note({ note, theme, ...props }) {
   // sets theme to dark or light mode
   const pageTheme = theme;
   // Auth
   const { currentUser } = useAuth();
   // all useStates
   const [noteDate, setNoteDate] = useState(null);
+  const [modifyNoteModal, setModifyNoteModal] = useState(false);
+  const modifyModalRef = useRef(document.getElementById('modify-modal'));
+  const modifyNoteRef = useRef(document.getElementById('modify-note'));
 
+  // useEffect
   useEffect(()=>{
     findDate()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+    // ========= Start of all functions =========
 
   // finds the date of the note, else sets it at todays date.
   const findDate = async () =>{
@@ -37,9 +43,15 @@ function Note({ note, theme }) {
     await deleteDoc(doc(db, `noteboard-app/${currentUser.uid}/userNotes`, note.noteId))
   }
 
+  // TODO: useCallback to possibly build modify modal in home.jsx
+  const handleOpenModifyModal = (e) => {
+    modifyModalRef.current.className = 'modify-note-container flex-center-all';
+    props.noteData(note);
+  }
+
   return (
     <>
-    <div className='note pointer' id={pageTheme}>
+    <div className='note pointer' id={pageTheme} onClick={handleOpenModifyModal}>
         <div className='note-header flex' style={{backgroundColor: `${note.noteColor}`}}>
                 <h4 className='font-carter-one'>{noteDate}</h4>
             <Trashbin className='pointer' id='trash-svg' onClick={handleNoteDelete}/>
