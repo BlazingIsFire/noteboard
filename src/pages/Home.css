@@ -22,7 +22,7 @@
 ==========================================================================
 */
 .home-header{
-    z-index: 2;
+    z-index: 1;
     height: 5rem;
     padding-left: 2rem;
     padding-right: 2rem;
@@ -41,9 +41,9 @@
     color: #000000;
 }
 .home-header-dark-container{
-    position: relative;
     width: 50px;
     height: 24px;
+    position: relative;
     border-radius: 40px;
 }
 .home-header-dark-container label{
@@ -58,12 +58,12 @@
     height: 0;
 }
 .dark-mode-slider{
-    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     transition: .4s;
+    position: absolute;
     border-radius: 40px;
     -webkit-transition: .4s;
     background-color: #000d47;
@@ -225,7 +225,7 @@
     position: absolute;
     border-radius: 40px;
     box-sizing: border-box;
-    background-color: var(--addnote-color-selector);
+    background-color: var(--modifynote-color-selector);
 }
 .addnote-color:hover{
     scale: 1.2;
