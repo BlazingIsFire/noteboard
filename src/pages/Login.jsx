@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react'
 import '../index.css';
 import './LoginPage.css';
-import { auth, db, noteboardCollectionRef } from '../firebase';
-import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { addDoc, collection, doc, getDoc, setDoc } from 'firebase/firestore';
-import { ReactComponent as LoginSVG } from '../imgs/sticky-note.svg';
+import { useAuth } from '../contexts/AuthContext';
 import notebookImg from '../imgs/notebook-128.png';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth, noteboardCollectionRef } from '../firebase';
+import { ReactComponent as LoginSVG } from '../imgs/sticky-note.svg';
 
 function Login() {
     // all useRef's

@@ -124,6 +124,15 @@
     height: 275px;
     border-radius: 10px;
     background-color: #ffffff;
+    animation: login-modal-intro 1s forwards;
+}
+@keyframes login-modal-intro{
+    0%{
+        transform: translateY(-200%);
+    }
+    100%{
+        transform: translateY(0%);
+    }
 }
 .login-modal-box h1{
     margin-bottom: 0;

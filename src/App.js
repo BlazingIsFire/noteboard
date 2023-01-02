@@ -1,9 +1,9 @@
 import React from "react";
-import { Route, Routes } from 'react-router-dom';
-import { AuthProvider } from "./contexts/AuthContext";
-import Login from './pages/Login';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import { Route, Routes } from 'react-router-dom';
 import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from "./contexts/AuthContext";
 
 function App() {
   return (
