@@ -179,6 +179,21 @@
     border: 1px solid #000000;
     transition: all .2s ease;
 }
+#modifynote-submit-btn{
+    width: 40%;
+    margin: 0 auto;
+    padding: 4px;
+    font-size: 20px;
+    color: #ffffff;
+    text-align: center;
+    border-radius: 5px;
+    font-family: 'Amaranth';
+    border: 1px solid #000000;
+    background-color: #000d47;
+}
+#modifynote-submit-btn:hover{
+    background-color: #001b96;
+}
 
 /* 
 ==========================================================================
@@ -216,6 +231,9 @@
     }
     .modifynote-colors-container{
         gap: .88rem;
+    }
+    #modifynote-submit-btn{
+        width: 50%;
     }
 }
 @media only screen and (max-width: 527px){
