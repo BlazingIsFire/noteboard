@@ -40,6 +40,7 @@ function Note({ note, theme, ...props }) {
   // Deletes an note
   const handleNoteDelete = async () => {
     await deleteDoc(doc(db, `noteboard-app/${currentUser.uid}/userNotes`, note.noteId))
+    props.noteDelete('Note successfully deleted!')
   }
 
   // Sets Modify modal to open and passes note data through to Home.jsx
@@ -47,6 +48,7 @@ function Note({ note, theme, ...props }) {
     modifyModalRef.current.className = 'modify-note-container flex-center-all';
     props.noteData(note);
   }
+
 
   return (
     <>
