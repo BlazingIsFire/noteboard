@@ -251,7 +251,7 @@ function Home() {
                 <input type='checkbox' name='modifynote-color-pink'/>
                 <span className='modifynote-color pointer' id={`${modifyNoteColor === '#FF69B4' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#FF69B4'}} onClick={()=>{setModifyNoteColor('#FF69B4')}}/>
             </div>
-            <input type='submit' value='Update Note' id='addnote-submit-btn' className='pointer'/>
+            <input type='submit' value='Update Note' id='modifynote-submit-btn' className='pointer'/>
             <input type='button' value='Cancel' id='addnote-cancel-btn' className='pointer' onClick={handleModifyNoteCancel}/>
         </form>
       </div>

@@ -247,9 +247,11 @@
 
 #addnote-submit-btn{
     width: 40%;
+    margin: 0 auto;
     padding: 4px;
     font-size: 20px;
     color: #ffffff;
+    text-align: center;
     border-radius: 5px;
     font-family: 'Amaranth';
     border: 1px solid #000000;
