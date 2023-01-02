@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../index.css';
 import './Home.css';
-import { db } from '../firebase';
 import Note from '../components/Note';
+import { db, auth } from '../firebase';
+import { signOut } from 'firebase/auth';
 import { useAuth } from '../contexts/AuthContext';
 import { ReactComponent as Add } from '../imgs/add.svg';
+import { ReactComponent as Logout } from '../imgs/logout.svg';
 import { doc, onSnapshot, query, collection, setDoc, updateDoc, serverTimestamp, orderBy } from 'firebase/firestore';
 
 
@@ -20,8 +22,8 @@ function Home() {
     const [pageTheme, setPageTheme] = useState();
     const [modifyNoteData, setModifyNoteData] = useState();
     const [addNoteModal, setAddNoteModal] = useState(false);
-    const [addNoteColor, setAddNoteColor] = useState('white');
-    const [modifyNoteColor, setModifyNoteColor] = useState('');
+    const [addNoteColor, setAddNoteColor] = useState('#ffffff');
+    const [modifyNoteColor, setModifyNoteColor] = useState();
     // useRefs
     const addNoteTitleRef = useRef();
     const addNoteContentRef = useRef();
@@ -96,7 +98,6 @@ function Home() {
                 noteDate: serverTimestamp()
             })
         } else {
-            console.log('its not null')
             await setDoc(noteboardUserNotesDocRef, {
                 noteTitle: addNoteTitleRef.current.value,
                 noteContent: addNoteContentRef.current.value,
@@ -142,6 +143,16 @@ function Home() {
         setModifyNoteData(data);
         modifyNoteTitleRef.current.value = data.noteTitle;
         modifyNoteContentRef.current.value = data.noteContent;
+        setModifyNoteColor(data.noteColor);
+    }
+
+    // Signs user out of application.
+    const handleSignOut = async () => {
+        await signOut(auth).then(()=>{
+            return;
+        }).catch((error)=>{
+            return console.log(error.code + ': Error on sign out.');
+        })
     }
     
   return (
@@ -149,16 +160,19 @@ function Home() {
     <div className='home-container' id={pageTheme}>
         <div className='home-header flex'>
             <h1 className='font-carter-one'>Noteboard</h1>
-            <div className='home-header-dark-container'>
-                <label className='font-carter-one'>Dark Mode</label>
-               <span className='home-header-dark-mode'>
-                    <input type='checkbox' checked={darkmode} readOnly/>
-                    <span className='dark-mode-slider pointer' onClick={handleDarkModeSlider}/>
-                </span>
+            <div className='flex flex-row'>
+                <div className='home-header-dark-container'>
+                    <label className='font-carter-one'>Dark Mode</label>
+                    <span className='home-header-dark-mode'>
+                        <input type='checkbox' checked={darkmode} readOnly/>
+                        <span className='dark-mode-slider pointer' onClick={handleDarkModeSlider}/>
+                    </span>
+                </div>
+                <Logout className='pointer' id='logout-svg' onClick={handleSignOut}/>
             </div>
         </div>
         <div className='home-body flex-center-all'>
-            <div className='home-new-note flex-center-all flex-column pointer' onClick={()=>{setAddNoteModal(true)}}>
+            <div className='home-new-note flex' onClick={()=>{setAddNoteModal(true)}}>
                 <Add className='pointer' id='new-note'/>
                 <h2 className='font-carter-one'>Add Note</h2>
             </div>
@@ -175,7 +189,7 @@ function Home() {
                 <textarea ref={addNoteContentRef} placeholder='Add Content...' required/><br/>
                 <div className='addnote-colors-container flex flex-start'>
                     <input type='checkbox' name='addnote-color-white'/>
-                    <span className='addnote-color pointer' id={`${addNoteColor === '#ffffff' ? 'addnote-color-selected' : 'addnote-color-default'}`} style={{'--addnote-color-selector': '#ffffff'}} onClick={()=>{setAddNoteColor('#ffffff')}}/>
+                    <span className='addnote-color pointer' id={`${addNoteColor === '#ffffff' || addNoteColor === undefined ? 'addnote-color-selected' : 'addnote-color-default'}`} style={{'--addnote-color-selector': '#ffffff'}} onClick={()=>{setAddNoteColor('#ffffff')}}/>
                     <input type='checkbox' name='addnote-color-dark'/>
                     <span className='addnote-color pointer' id={`${addNoteColor === '#282c34' ? 'addnote-color-selected' : 'addnote-color-default'}`} style={{'--addnote-color-selector': '#282c34'}} onClick={()=>{setAddNoteColor('#282c34')}}/>
                     <input type='checkbox' name='addnote-color-red'/>
@@ -208,23 +222,23 @@ function Home() {
             <textarea ref={modifyNoteContentRef} defaultValue={`${modifyNoteData ? modifyNoteData.noteContent : ''}`} placeholder='Modify Content...' required/><br/>
             <div className='modifynote-colors-container flex flex-start'>
                 <input type='checkbox' name='modifynote-color-white'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ffffff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffffff'}} onClick={()=>{setModifyNoteColor('#ffffff')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#ffffff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffffff'}} onClick={()=>{setModifyNoteColor('#ffffff')}}/>
                 <input type='checkbox' name='modifynote-color-dark'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#282c34' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#282c34'}} onClick={()=>{setModifyNoteColor('#282c34')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#282c34' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#282c34'}} onClick={()=>{setModifyNoteColor('#282c34')}}/>
                 <input type='checkbox' name='modifynote-color-red'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ff0000' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ff0000'}} onClick={()=>{setModifyNoteColor('#ff0000')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#ff0000' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ff0000'}} onClick={()=>{setModifyNoteColor('#ff0000')}}/>
                 <input type='checkbox' name='modifynote-color-yellow'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#ffee00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffee00'}} onClick={()=>{setModifyNoteColor('#ffee00')}}/> 
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#ffee00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#ffee00'}} onClick={()=>{setModifyNoteColor('#ffee00')}}/> 
                 <input type='checkbox' name='modifynote-color-green'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#1eff00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#1eff00'}} onClick={()=>{setModifyNoteColor('#1eff00')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#1eff00' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#1eff00'}} onClick={()=>{setModifyNoteColor('#1eff00')}}/>
                 <input type='checkbox' name='modifynote-color-cyan'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#00d9ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#00d9ff'}} onClick={()=>{setModifyNoteColor('#00d9ff')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#00d9ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#00d9ff'}} onClick={()=>{setModifyNoteColor('#00d9ff')}}/>
                 <input type='checkbox' name='modifynote-color-blue'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#3700ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#3700ff'}} onClick={()=>{setModifyNoteColor('#3700ff')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#3700ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#3700ff'}} onClick={()=>{setModifyNoteColor('#3700ff')}}/>
                 <input type='checkbox' name='modifynote-color-purple'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#c300ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#c300ff'}} onClick={()=>{setModifyNoteColor('#c300ff')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#c300ff' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#c300ff'}} onClick={()=>{setModifyNoteColor('#c300ff')}}/>
                 <input type='checkbox' name='modifynote-color-pink'/>
-                <span className='addnote-color pointer' id={`${modifyNoteColor === '#FF69B4' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#FF69B4'}} onClick={()=>{setModifyNoteColor('#FF69B4')}}/>
+                <span className='modifynote-color pointer' id={`${modifyNoteColor === '#FF69B4' ? 'modifynote-color-selected' : 'modifynote-color-default'}`} style={{'--modifynote-color-selector': '#FF69B4'}} onClick={()=>{setModifyNoteColor('#FF69B4')}}/>
             </div>
             <input type='submit' value='Update Note' id='addnote-submit-btn' className='pointer'/>
             <input type='button' value='Cancel' id='addnote-cancel-btn' className='pointer' onClick={handleModifyNoteCancel}/>
