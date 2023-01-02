@@ -156,7 +156,7 @@
 }
 @keyframes addnote-modal-intro{
     0%{
-        transform: translateY(-100%);
+        transform: translateY(-200%);
     }
     100%{
         transform: translateY(0%);
@@ -332,6 +332,11 @@
     }
     .addnote-colors-container{
         gap: .88rem;
+    }
+}
+@media only screen and (max-width: 480px){
+    .Toastify__toast-container{
+        padding: 14px !important;
     }
 }
 @media only screen and (max-width: 527px){
