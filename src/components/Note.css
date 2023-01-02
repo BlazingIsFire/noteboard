@@ -91,7 +91,7 @@
 }
 @keyframes modify-note-intro{
     0%{
-        transform: translateY(-100%);
+        transform: translateY(-200%);
     }
     100%{
         transform: translateY(0%);
