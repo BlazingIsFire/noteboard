@@ -35,10 +35,12 @@
 .note-header h4{
     font-size: 16px;
 }
-#trash-svg{
+#trash-svg,
+#editpencil-svg{
     width: 26px;
 }
-#trash-svg:hover{
+#trash-svg:hover,
+#editpencil-svg:hover{
     scale: 1.2;
 }
 .note-body{
@@ -164,7 +166,7 @@
     position: absolute;
     border-radius: 40px;
     box-sizing: border-box;
-    background-color: var(--addnote-color-selector);
+    background-color: var(--modifynote-color-selector);
 }
 .modifynote-color:hover{
     scale: 1.2;
@@ -200,4 +202,25 @@
 
 #lightmode.note{
     background-color: #ffffff;
+}
+
+/*
+===========================================================
+@Media's for devices
+=========================================================== 
+*/
+
+@media only screen and (max-width: 1024px){
+    .modify-note-box{
+        width: 80%;
+    }
+    .modifynote-colors-container{
+        gap: .88rem;
+    }
+}
+@media only screen and (max-width: 527px){
+    .note{
+        width: 16rem;
+        height: unset;
+    }
 }
