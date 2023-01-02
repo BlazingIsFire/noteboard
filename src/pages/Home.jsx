@@ -4,7 +4,9 @@ import './Home.css';
 import Note from '../components/Note';
 import { db, auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../contexts/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
 import { ReactComponent as Add } from '../imgs/add.svg';
 import { ReactComponent as Logout } from '../imgs/logout.svg';
 import { doc, onSnapshot, query, collection, setDoc, updateDoc, serverTimestamp, orderBy } from 'firebase/firestore';
@@ -109,6 +111,7 @@ function Home() {
         setAddNoteModal(false);
         addNoteTitleRef.current.value = '';
         addNoteContentRef.current.value = '';
+        toast.success('Successfully added the note!');
     }
 
     // Cancels Add note modal and resets states / refs.
@@ -129,6 +132,7 @@ function Home() {
             noteColor: modifyNoteColor
         });
         handleModifyNoteCancel();
+        toast.success('Note updated successfully!');
     }
 
     // Cancels Modify Note modal and resets states.
@@ -146,12 +150,18 @@ function Home() {
         setModifyNoteColor(data.noteColor);
     }
 
+    // Prompts Toastify of note deletion. 
+    const getDeleteData = (data) => {
+        toast.success(data);
+    }
+
     // Signs user out of application.
     const handleSignOut = async () => {
         await signOut(auth).then(()=>{
             return;
         }).catch((error)=>{
-            return console.log(error.code + ': Error on sign out.');
+            console.log(error.code + ': Error on sign out.');
+            return toast.error('Error signing out!');
         })
     }
     
@@ -176,8 +186,9 @@ function Home() {
                 <Add className='pointer' id='new-note'/>
                 <h2 className='font-carter-one'>Add Note</h2>
             </div>
-            {notes.map(((note, index) => <Note key={index} note={note} theme={pageTheme} noteData={getNoteData}/>))}
+            {notes.map(((note, index) => <Note key={index} note={note} theme={pageTheme} noteData={getNoteData} noteDelete={getDeleteData}/>))}
         </div>
+        <ToastContainer position='bottom-right' theme={`${pageTheme === 'darkmode' ? 'dark' : 'light'}`} draggable={false} pauseOnHover={false}/>
     </div>
     <div className={`${addNoteModal ? 'addnote-modal-container flex-center-all' : 'display-none'}`}>
         <div className='addnote-modal-box flex-column'>
