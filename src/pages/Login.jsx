@@ -14,8 +14,9 @@ function Login() {
     const emailRef = useRef();
     const passwordRef = useRef();
     // all useState's
-    const [loginModal, setLoginModal] = useState(false);
     const [errorText, setErrorText] = useState('');
+    const [loginModal, setLoginModal] = useState(false);
+    const [guestModal, setGuestModal] = useState(true);
     // Misc.
     const navigate = useNavigate();
     const { currentUser } = useAuth();
@@ -67,6 +68,17 @@ function Login() {
         )
     }
 
+    // Logs user in as guest
+    const handleGuestLogin = async () =>{
+        await signInWithEmailAndPassword(auth, process.env.REACT_APP_PREVIEW_ACC_EMAIL, process.env.REACT_APP_PREVIEW_ACC_PASS)
+        .then((userCredential) => {
+            return navigate('home');
+        })
+        .catch((err) =>{
+            return console.log(err)
+        })
+    }
+
   return (
     <>
     <div className='login-container flex-center-all'>
@@ -86,6 +98,13 @@ function Login() {
                 <h5 className='font-carter-one'>Don't have an account?</h5>
                 <a className='font-carter-one pointer' href='https://andrewschweitzer.tech/register' title='Register'>Create an account</a>
             </div>
+        </div>
+    </div>
+    <div className={`${guestModal ? `guest-modal flex-center-all` : 'display-none'}`}>
+        <div className='guest-modal-box flex-center-all flex-column'>
+            <h1>Are you a Guest?</h1>
+            <button id='guest-modal-signin-btn' className='pointer' onClick={handleGuestLogin}>Yes! Sign in with Guest account.</button>
+            <button id='guest-modal-close-btn' className='pointer' onClick={()=>{setGuestModal(false)}}>No! I have an account.</button>
         </div>
     </div>
     <div className={`${loginModal ? `login-modal flex-center-all` : 'display-none'}`}>
